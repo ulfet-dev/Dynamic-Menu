@@ -1,101 +1,70 @@
 import type { NextPage } from "next";
-import { AllData, mainMenu, subMenu1, subMenu2 } from "../AllData";
+import { AllData } from "../AllData";
 
 const Home: NextPage = () => {
-  let index = 0;
-  let fLength: number;
-  let lLength: number;
-  let subMenu: any[] = [];
-  let newArrayy: any[] = [];
+  let newArrayy;
+  let lastPart;
+  let newMenu: any[] = [];
+  let parentArray: any[] = [];
 
-  // const LiFun = () => {
-  //   for (let i = 1; i <= AllData.length; i++) {
-  //     let nn = 8;
-  //     AllData.map(
-  //       (dd, index) => (
-  //         dd.code.split(".").length - 1 === i &&
-  //         dd.code === dd.code.slice(0, nn) &&
-  //         ((newArrayy[i] = dd.code
-  //           .slice(0, nn)
-  //           .match(dd.code)
-  //           ?.filter(Boolean)),
-  //           console.log(newArrayy[i], { i }, dd.code, { index })
-  //           // console.table(newArrayy[i])
-  //         ),
-  //         (nn += 4)
-  //       )
-  //     );
-  //   }
-  // };
-  // LiFun();
+  AllData.map((dd) =>
+    dd.code.split(".").length - 1 >= 2
+      ? ((lastPart = dd.code.slice(0, -4)),
+        (newArrayy = {
+          code: dd.code,
+          title: dd.title,
+          parent: lastPart,
+        }),
+        newMenu.push(newArrayy))
+      : ((newArrayy = {
+          code: dd.code,
+          title: dd.title,
+          parent: null,
+        }),
+        // newMenu.push(newArrayy),
+        parentArray.push(newArrayy))
+  );
 
-  const runCallback = (cb: { (): void; (): any }) => {
-    return cb();
-  };
+  console.log({ newMenu });
 
   return (
     <div style={{ padding: "10px" }}>
       <p>Dynamic n levels</p>
-      {AllData.map((newData1) => (
+      {parentArray.map((p) => (
         <ul id="menu">
           <li className="parent">
             <>
-              <a href="#">
-                {newData1.code.toString().split(".")[index + 1] &&
-                  newData1.code.length < 9 &&
-                  newData1.title}
-              </a>
+              <a href="#">{p.title}</a>
               <ul className="child">
-                <>
-                  {runCallback(() => {
-                    for (
-                      fLength = 9;
-                      fLength < newData1.code.length;
-                      fLength += 4
-                    ) {
-                      for (
-                        lLength = 13;
-                        lLength < newData1.code.length;
-                        lLength += 4
-                      ) {
-                        index += 1;
-                        {
-                          AllData.map((subMenu1Item) =>
-                            subMenu1Item.code.length > fLength &&
-                              subMenu1Item.code.length < lLength &&
-                              subMenu1Item.code
-                                .toString()
-                                .split(".")
-                              [index].includes(
-                                newData1.code.toString().split(".")[index]
-                              )
-                              ? subMenu.push(subMenu1Item.title)
-                              : null
-                          );
-                        }
-                      }
-                    }
-                  })}
-                  <li className="parent">
-                    <a href="#">
-                      {subMenu.map((sub) => (
-                        <span>{sub}</span>
-                      ))}
-                    </a>
-                  </li>
-                  {/* {subMenu} */}
-                  {/* {LiFun()} */}
-                  {/* {subMenu.map((s)=><li> {s}</li>)} */}
-                  {/* {<li>{Object.keys(subMenu)} - kk</li>} */}
-                  {/* {Object.keys(<li>{subMenu}</li>)} */}
-                </>
+                {newMenu
+                  .filter((newM) => newM.parent?.includes(p.code))
+                  .map(
+                    (menu) =>
+                      menu.code.length <= 12 && (
+                        <li className="parent" style={{ width: "260px" }}>
+                          <a href="#">{menu.title}</a>
+                          <ul className="child">
+                            {newMenu
+                              .filter((newM) => newM.parent?.includes(p.code))
+                              .map((menu) => (
+                                <li
+                                  className="parent"
+                                  style={{ width: "260px" }}
+                                >
+                                  <a href="#">{menu.title}</a>
+                                </li>
+                              ))}
+                          </ul>
+                        </li>
+                      )
+                  )}
               </ul>
             </>
           </li>
         </ul>
       ))}
 
-      <br />
+      {/* <br />
       <br />
       <br />
       <br />
@@ -142,7 +111,7 @@ const Home: NextPage = () => {
             </ul>
           </li>
         </ul>
-      ))}
+      ))} */}
     </div>
   );
 };

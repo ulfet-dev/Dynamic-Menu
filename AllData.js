@@ -63,20 +63,8 @@ export const AllData = [
     code: "MENU.003.001",
     title: "Menu Name 3 Submenu 1",
   },
+  {
+    code: "MENU.004",
+    title: "Menu Name 4",
+  },
 ];
-
-
-
-
-// Static - 3 levels
-export const mainMenu = AllData.map(
-    (dd) => dd.code.split(".").length - 1 === 1 && dd.code
-  );
-
-export const subMenu1 = AllData.map(
-  (dd) => dd.code.split(".").length - 1 === 2 && dd.code
-);
-
-export const subMenu2 = AllData.map(
-  (dd) => dd.code.split(".").length - 1 === 3 && dd.code
-);
