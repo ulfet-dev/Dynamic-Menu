@@ -17,15 +17,27 @@ const Home: NextPage = () => {
         }),
         newMenu.push(newArrayy))
       : ((newArrayy = {
-          code: dd.code,
-          title: dd.title,
-          parent: null,
-        }),
+        code: dd.code,
+        title: dd.title,
+        parent: null,
+      }),
         // newMenu.push(newArrayy),
         parentArray.push(newArrayy))
   );
 
   console.log({ newMenu });
+
+  let groupByParent = newMenu.reduce((group, menuLabel) => {
+    const { parent } = menuLabel;
+    group[parent] = group[parent] ?? [];
+    group[parent].push(menuLabel);
+    return group;
+  }, {});
+  console.log({ groupByParent });
+
+  let AllKeys = Object.keys(groupByParent);
+  console.log({AllKeys});
+
 
   return (
     <div style={{ padding: "10px" }}>
