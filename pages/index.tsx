@@ -35,9 +35,13 @@ const Home: NextPage = () => {
   }, {});
   console.log({ groupByParent });
 
-  let AllKeys = Object.keys(groupByParent);
-  console.log({AllKeys});
+  // let AllKeys = Object.keys(groupByParent);
+  // console.log({AllKeys}, AllKeys.length, AllKeys[1]);
 
+
+for (const [key, value] of Object.entries(groupByParent)) {
+  console.log(key, value);
+}
 
   return (
     <div style={{ padding: "10px" }}>
