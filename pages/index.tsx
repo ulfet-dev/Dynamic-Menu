@@ -47,8 +47,8 @@ for (const [key, value] of Object.entries(groupByParent)) {
     <div style={{ padding: "10px" }}>
       <p>Dynamic n levels</p>
       {parentArray.map((p) => (
-        <ul id="menu">
-          <li className="parent" key={p.code}>
+        <ul id="menu"  key={p.code}>
+          <li className="parent">
             <>
               <a href="#">{p.title}</a>
               <ul className="child">
